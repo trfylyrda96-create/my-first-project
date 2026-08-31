@@ -1,251 +1,268 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>فروش‌یار | دستیار هوشمند فروش</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Tahoma, Arial, sans-serif;
-    }
-
-    body {
-      background: #f6f8fb;
-      color: #172033;
-      line-height: 1.8;
-    }
-
-    header {
-      background: #ffffff;
-      padding: 18px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e8ebf0;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .logo span {
-      color: #2563eb;
-    }
-
-    .header-btn {
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-size: 14px;
-    }
-
-    .hero {
-      padding: 75px 6% 60px;
-      text-align: center;
-      background: linear-gradient(135deg, #eef5ff, #ffffff);
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 span {
-      color: #2563eb;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: #5c6678;
-      font-size: 18px;
-    }
-
-    .main-btn {
-      display: inline-block;
-      margin-top: 30px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      padding: 14px 30px;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .features {
-      padding: 60px 6%;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .section-title h2 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    .section-title p {
-      color: #687386;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .card {
-      background: white;
-      padding: 28px;
-      border-radius: 18px;
-      border: 1px solid #e7eaf0;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.04);
-    }
-
-    .icon {
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #687386;
-      font-size: 14px;
-    }
-
-    .cta {
-      margin: 20px 6% 60px;
-      padding: 45px 25px;
-      text-align: center;
-      border-radius: 22px;
-      background: #172033;
-      color: white;
-    }
-
-    .cta p {
-      color: #cbd2df;
-      margin-top: 8px;
-    }
-
-    .cta a {
-      display: inline-block;
-      margin-top: 22px;
-      background: white;
-      color: #172033;
-      padding: 12px 25px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #7a8495;
-      font-size: 13px;
-    }
-
-    @media (max-width: 750px) {
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      header {
-        padding: 15px 4%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فروش‌یار | مدیریت فروش</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
+body{background:#f5f7fb;color:#172033;line-height:1.7}
+header{background:#fff;border-bottom:1px solid #e5e7eb;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.logo{font-size:23px;font-weight:bold}.logo span{color:#2563eb}
+header button{border:0;background:#2563eb;color:white;padding:10px 16px;border-radius:10px;cursor:pointer}
+.container{max-width:1100px;margin:auto;padding:25px 5%}
+.welcome{margin-bottom:22px}
+.welcome h1{font-size:27px}.welcome p{color:#687386;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:25px}
+.stat{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:20px}
+.stat small{color:#687386}.stat strong{display:block;font-size:23px;margin-top:7px}
+.section{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:20px;margin-bottom:20px}
+.section h2{font-size:20px;margin-bottom:16px}
+.form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+input,select{width:100%;padding:13px;border:1px solid #d8dde6;border-radius:10px;font-size:14px;outline:none}
+input:focus,select:focus{border-color:#2563eb}
+.full{grid-column:1/-1}
+.primary{background:#2563eb;color:white;border:0;padding:13px 20px;border-radius:10px;cursor:pointer;font-weight:bold}
+.danger{background:#fee2e2;color:#b91c1c;border:0;padding:7px 11px;border-radius:8px;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:right;padding:12px;border-bottom:1px solid #edf0f4}
+th{color:#687386;font-weight:normal}
+.empty{text-align:center;color:#7a8495;padding:20px}
+.note{font-size:12px;color:#7a8495;margin-top:10px}
+@media(max-width:700px){
+.stats{grid-template-columns:1fr}
+.form{grid-template-columns:1fr}
+.full{grid-column:auto}
+table{font-size:12px}
+th,td{padding:9px 5px}
+}
+</style>
 </head>
-
 <body>
 
-  <header>
-    <div class="logo">فروش<span>یار</span></div>
-    <a class="header-btn" href="#start">شروع کنید</a>
-  </header>
+<header>
+<div class="logo">فروش<span>یار</span></div>
+<button onclick="showSection('saleSection')">+ ثبت فروش</button>
+</header>
 
-  <section class="hero">
-    <h1>فروش بیشتر با <span>فروش‌یار</span></h1>
+<div class="container">
 
-    <p>
-      یک دستیار ساده و کاربردی برای فروشندگان و کسب‌وکارهای کوچک
-      که می‌خواهند فروش خود را بهتر مدیریت کنند.
-    </p>
+<div class="welcome">
+<h1>داشبورد فروش</h1>
+<p>فروش و محصولات کسب‌وکارت را ساده مدیریت کن.</p>
+</div>
 
-    <a class="main-btn" href="#features">مشاهده امکانات</a>
-  </section>
+<div class="stats">
+<div class="stat"><small>مجموع فروش</small><strong id="totalSales">۰ تومان</strong></div>
+<div class="stat"><small>مجموع هزینه</small><strong id="totalCost">۰ تومان</strong></div>
+<div class="stat"><small>سود تقریبی</small><strong id="totalProfit">۰ تومان</strong></div>
+</div>
 
-  <section class="features" id="features">
+<div class="section">
+<h2>📦 افزودن محصول</h2>
+<div class="form">
+<input id="productName" placeholder="نام محصول">
+<input id="productPrice" type="number" placeholder="قیمت فروش">
+<input id="productCost" type="number" placeholder="هزینه خرید/تولید">
+<input id="productStock" type="number" placeholder="موجودی">
+<button class="primary full" onclick="addProduct()">افزودن محصول</button>
+</div>
+<p class="note">اطلاعات این نسخه در مرورگر همین دستگاه ذخیره می‌شود.</p>
+</div>
 
-    <div class="section-title">
-      <h2>امکانات فروش‌یار</h2>
-      <p>ابزارهایی که به مدیریت بهتر فروش کمک می‌کنند</p>
-    </div>
+<div class="section" id="saleSection">
+<h2>🛒 ثبت فروش</h2>
+<div class="form">
+<select id="saleProduct"><option value="">انتخاب محصول</option></select>
+<input id="saleQuantity" type="number" min="1" value="1" placeholder="تعداد">
+<button class="primary full" onclick="addSale()">ثبت فروش</button>
+</div>
+</div>
 
-    <div class="cards">
+<div class="section">
+<h2>📊 محصولات</h2>
+<div id="productsTable"></div>
+</div>
 
-      <div class="card">
-        <div class="icon">📦</div>
-        <h3>مدیریت محصولات</h3>
-        <p>
-          محصولات و اطلاعات مربوط به آن‌ها را مرتب و ساده مدیریت کنید.
-        </p>
-      </div>
+<div class="section">
+<h2>💰 فروش‌های ثبت‌شده</h2>
+<div id="salesTable"></div>
+</div>
 
-      <div class="card">
-        <div class="icon">💰</div>
-        <h3>مدیریت فروش</h3>
-        <p>
-          فروش‌های خود را ثبت کنید و دید بهتری نسبت به عملکرد کسب‌وکارتان داشته باشید.
-        </p>
-      </div>
+</div>
 
-      <div class="card">
-        <div class="icon">👥</div>
-        <h3>مدیریت مشتریان</h3>
-        <p>
-          اطلاعات مشتریان را منظم نگه دارید و ارتباط بهتری با آن‌ها داشته باشید.
-        </p>
-      </div>
+<script>
+let products=JSON.parse(localStorage.getItem("forooshyar_products")||"[]");
+let sales=JSON.parse(localStorage.getItem("forooshyar_sales")||"[]");
 
-    </div>
-  </section>
+const money=n=>new Intl.NumberFormat("fa-IR").format(n)+" تومان";
 
-  <section class="cta" id="start">
-    <h2>آماده‌ای فروش خودت را بهتر مدیریت کنی؟</h2>
-    <p>فروش‌یار را شروع کن و ابزارهای بیشتری را در آینده تجربه کن.</p>
-    <a href="#">شروع رایگان</a>
-  </section>
+function save(){
+localStorage.setItem("forooshyar_products",JSON.stringify(products));
+localStorage.setItem("forooshyar_sales",JSON.stringify(sales));
+}
 
-  <footer>
-    © 2026 فروش‌یار — تمامی حقوق محفوظ است.
-  </footer>
+function addProduct(){
+const name=document.getElementById("productName").value.trim();
+const price=Number(document.getElementById("productPrice").value);
+const cost=Number(document.getElementById("productCost").value);
+const stock=Number(document.getElementById("productStock").value);
+
+if(!name||price<=0||cost<0||stock<0){
+alert("لطفاً اطلاعات محصول را کامل و صحیح وارد کنید.");
+return;
+}
+
+products.push({id:Date.now(),name,price,cost,stock});
+save();
+
+document.getElementById("productName").value="";
+document.getElementById("productPrice").value="";
+document.getElementById("productCost").value="";
+document.getElementById("productStock").value="";
+
+render();
+}
+
+function addSale(){
+const id=Number(document.getElementById("saleProduct").value);
+const quantity=Number(document.getElementById("saleQuantity").value);
+const product=products.find(p=>p.id===id);
+
+if(!product){
+alert("ابتدا یک محصول انتخاب کنید.");
+return;
+}
+
+if(quantity<=0){
+alert("تعداد فروش باید بیشتر از صفر باشد.");
+return;
+}
+
+if(product.stock<quantity){
+alert("موجودی این محصول کافی نیست.");
+return;
+}
+
+product.stock-=quantity;
+
+sales.push({
+id:Date.now(),
+productId:product.id,
+productName:product.name,
+quantity,
+price:product.price,
+cost:product.cost,
+date:new Date().toLocaleDateString("fa-IR")
+});
+
+save();
+document.getElementById("saleQuantity").value=1;
+render();
+alert("فروش با موفقیت ثبت شد.");
+}
+
+function deleteProduct(id){
+if(confirm("این محصول حذف شود?")){
+products=products.filter(p=>p.id!==id);
+save();
+render();
+}
+}
+
+function deleteSale(id){
+if(confirm("این فروش حذف شود؟")){
+const sale=sales.find(s=>s.id===id);
+const product=products.find(p=>p.id===sale.productId);
+
+if(product) product.stock+=sale.quantity;
+
+sales=sales.filter(s=>s.id!==id);
+save();
+render();
+}
+}
+
+function renderProducts(){
+const box=document.getElementById("productsTable");
+
+if(products.length===0){
+box.innerHTML='<div class="empty">هنوز محصولی ثبت نشده است.</div>';
+}else{
+box.innerHTML=`
+<table>
+<tr><th>محصول</th><th>قیمت</th><th>موجودی</th><th>عملیات</th></tr>
+${products.map(p=>`
+<tr>
+<td>${escapeHtml(p.name)}</td>
+<td>${money(p.price)}</td>
+<td>${p.stock}</td>
+<td><button class="danger" onclick="deleteProduct(${p.id})">حذف</button></td>
+</tr>`).join("")}
+</table>`;
+}
+
+const select=document.getElementById("saleProduct");
+select.innerHTML='<option value="">انتخاب محصول</option>'+
+products.map(p=>`<option value="${p.id}">${escapeHtml(p.name)} — موجودی: ${p.stock}</option>`).join("");
+}
+
+function renderSales(){
+const box=document.getElementById("salesTable");
+
+if(sales.length===0){
+box.innerHTML='<div class="empty">هنوز فروشی ثبت نشده است.</div>';
+return;
+}
+
+box.innerHTML=`
+<table>
+<tr><th>محصول</th><th>تعداد</th><th>مبلغ</th><th>تاریخ</th><th></th></tr>
+${sales.slice().reverse().map(s=>`
+<tr>
+<td>${escapeHtml(s.productName)}</td>
+<td>${s.quantity}</td>
+<td>${money(s.price*s.quantity)}</td>
+<td>${s.date}</td>
+<td><button class="danger" onclick="deleteSale(${s.id})">حذف</button></td>
+</tr>`).join("")}
+</table>`;
+}
+
+function renderStats(){
+let revenue=0,cost=0;
+
+sales.forEach(s=>{
+revenue+=s.price*s.quantity;
+cost+=s.cost*s.quantity;
+});
+
+document.getElementById("totalSales").textContent=money(revenue);
+document.getElementById("totalCost").textContent=money(cost);
+document.getElementById("totalProfit").textContent=money(revenue-cost);
+}
+
+function render(){
+renderProducts();
+renderSales();
+renderStats();
+}
+
+function showSection(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+function escapeHtml(text){
+return String(text)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+render();
+</script>
 
 </body>
 </html>
