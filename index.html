@@ -31,7 +31,7 @@ input:focus,select:focus{border-color:#2563eb}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{text-align:right;padding:11px 7px;border-bottom:1px solid #edf0f4}
 th{color:#687386;font-weight:normal}
-.actions{display:flex;gap:5px;flex-wrap:wrap}
+.actions{display:flex;gap:5px}
 .small{border:0;border-radius:7px;padding:6px 8px;cursor:pointer}
 .edit{background:#eaf1ff;color:#1d4ed8}
 .delete{background:#fee2e2;color:#b91c1c}
@@ -46,18 +46,7 @@ th{color:#687386;font-weight:normal}
 .modalBox h2{margin-bottom:15px}
 .modalActions{display:flex;gap:8px;margin-top:15px}
 .cancel{background:#eef0f3;border:0;padding:11px 17px;border-radius:10px;cursor:pointer}
-.authBox{max-width:430px;margin:70px auto;background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:25px}
-.authBox h1{text-align:center;margin-bottom:8px}
-.authBox p{text-align:center;color:#687386;margin-bottom:20px}
-.authBox input{margin-bottom:11px}
-.authBox button{width:100%;margin-top:5px}
-.authSwitch{text-align:center;margin-top:15px;color:#687386}
-.authSwitch button{width:auto;background:none;color:#2563eb;border:0;padding:0;cursor:pointer}
-.message{padding:10px;border-radius:9px;margin-bottom:12px;text-align:center;display:none}
-.error{background:#fee2e2;color:#b91c1c}
-.success{background:#dcfce7;color:#15803d}
-.userInfo{display:flex;align-items:center;gap:10px}
-.logout{background:#fee2e2;color:#b91c1c;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+
 @media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){
 .container{padding:18px 4%}
@@ -67,57 +56,15 @@ th{color:#687386;font-weight:normal}
 .report{grid-template-columns:1fr}
 table{font-size:11px}
 th,td{padding:8px 4px}
-header{padding:12px 4%}
-.logo{font-size:20px}
-.userInfo span{display:none}
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUTH -->
-<div id="authPage">
-
 <header>
 <div class="logo">فروش<span>یار</span></div>
-</header>
-
-<div class="authBox">
-
-<h1 id="authTitle">ورود به فروش‌یار</h1>
-<p id="authSubtitle">برای ورود به حساب فروشنده وارد شوید.</p>
-
-<div id="authMessage" class="message"></div>
-
-<input id="authEmail" type="email" placeholder="ایمیل">
-<input id="authPassword" type="password" placeholder="رمز عبور">
-
-<button class="primary" onclick="handleAuth()" id="authButton">
-ورود
-</button>
-
-<div class="authSwitch">
-<span id="switchText">حساب ندارید؟</span>
-<button onclick="toggleAuth()" id="switchButton">ثبت‌نام</button>
-</div>
-
-</div>
-</div>
-
-
-<!-- APP -->
-<div id="appPage" class="hidden">
-
-<header>
-
-<div class="logo">فروش<span>یار</span></div>
-
-<div class="userInfo">
-<span id="userEmail"></span>
-<button class="logout" onclick="logout()">خروج</button>
-</div>
-
+<button onclick="openSale()">+ ثبت فروش</button>
 </header>
 
 <div class="container">
@@ -126,1092 +73,706 @@ header{padding:12px 4%}
 <p class="subtitle">مدیریت محصولات، مشتریان، فروش و سود</p>
 
 <div class="stats">
-<div class="stat">
-<small>فروش کل</small>
-<strong id="totalRevenue">۰ تومان</strong>
+<div class="stat"><small>فروش کل</small><strong id="totalRevenue">۰ تومان</strong></div>
+<div class="stat"><small>هزینه کل</small><strong id="totalCost">۰ تومان</strong></div>
+<div class="stat"><small>سود</small><strong id="totalProfit">۰ تومان</strong></div>
+<div class="stat"><small>تعداد فروش</small><strong id="saleCount">۰</strong></div>
 </div>
-
-<div class="stat">
-<small>هزینه کل</small>
-<strong id="totalCost">۰ تومان</strong>
-</div>
-
-<div class="stat">
-<small>سود</small>
-<strong id="totalProfit">۰ تومان</strong>
-</div>
-
-<div class="stat">
-<small>تعداد فروش</small>
-<strong id="saleCount">۰</strong>
-</div>
-</div>
-
 
 <div class="nav">
-
-<button class="active" onclick="showTab('products',this)">
-📦 محصولات
-</button>
-
-<button onclick="showTab('sales',this)">
-🛒 فروش‌ها
-</button>
-
-<button onclick="showTab('customers',this)">
-👥 مشتریان
-</button>
-
-<button onclick="showTab('reports',this)">
-📊 گزارش‌ها
-</button>
-
+<button class="active" onclick="showTab('products',this)">📦 محصولات</button>
+<button onclick="showTab('sales',this)">🛒 فروش‌ها</button>
+<button onclick="showTab('customers',this)">👥 مشتریان</button>
+<button onclick="showTab('reports',this)">📊 گزارش‌ها</button>
 </div>
-
-
-<!-- PRODUCTS -->
 
 <div id="products" class="tab">
 
 <div class="section">
-
 <h2>افزودن محصول</h2>
-
 <div class="form">
-
 <input id="productName" placeholder="نام محصول">
-
 <input id="productPrice" type="number" placeholder="قیمت فروش">
-
 <input id="productCost" type="number" placeholder="هزینه تولید/خرید">
-
 <input id="productStock" type="number" placeholder="موجودی">
-
-<button class="primary full" onclick="addProduct()">
-افزودن محصول
-</button>
-
+<button class="primary full" onclick="addProduct()">افزودن محصول</button>
 </div>
 </div>
-
 
 <div class="section">
-
 <h2>فهرست محصولات</h2>
-
-<input
-class="search"
-id="productSearch"
-placeholder="🔍 جست‌وجوی محصول..."
-oninput="renderProducts()">
-
+<input class="search" id="productSearch" placeholder="🔍 جست‌وجوی محصول..." oninput="renderProducts()">
 <div id="productsTable"></div>
-
 </div>
 
 </div>
-
-
-<!-- SALES -->
 
 <div id="sales" class="tab hidden">
 
 <div class="section">
-
 <h2>ثبت فروش</h2>
-
 <div class="form">
-
 <select id="saleProduct"></select>
-
-<input
-id="saleQuantity"
-type="number"
-min="1"
-value="1"
-placeholder="تعداد">
-
+<input id="saleQuantity" type="number" min="1" value="1" placeholder="تعداد">
 <select id="saleCustomer"></select>
-
-<button class="primary full" onclick="addSale()">
-ثبت فروش
-</button>
-
+<button class="primary full" onclick="addSale()">ثبت فروش</button>
 </div>
 </div>
-
 
 <div class="section">
-
 <h2>فروش‌های ثبت‌شده</h2>
-
 <div id="salesTable"></div>
-
 </div>
 
 </div>
-
-
-<!-- CUSTOMERS -->
 
 <div id="customers" class="tab hidden">
 
 <div class="section">
-
 <h2>افزودن مشتری</h2>
-
 <div class="form">
-
 <input id="customerName" placeholder="نام مشتری">
-
 <input id="customerPhone" placeholder="شماره تلفن">
-
-<button class="primary full" onclick="addCustomer()">
-افزودن مشتری
-</button>
-
+<button class="primary full" onclick="addCustomer()">افزودن مشتری</button>
 </div>
 </div>
-
 
 <div class="section">
-
 <h2>فهرست مشتریان</h2>
-
 <div id="customersTable"></div>
-
 </div>
 
 </div>
-
-
-<!-- REPORTS -->
 
 <div id="reports" class="tab hidden">
 
 <div class="section">
-
 <h2>📊 گزارش عملکرد</h2>
-
 <div class="report">
-
-<div class="reportBox">
-فروش کل
-<strong id="reportRevenue">۰ تومان</strong>
-</div>
-
-<div class="reportBox">
-هزینه کل
-<strong id="reportCost">۰ تومان</strong>
-</div>
-
-<div class="reportBox">
-سود خالص تقریبی
-<strong id="reportProfit">۰ تومان</strong>
-</div>
-
-<div class="reportBox">
-تعداد محصولات
-<strong id="reportProducts">۰</strong>
-</div>
-
-<div class="reportBox">
-تعداد مشتریان
-<strong id="reportCustomers">۰</strong>
-</div>
-
-<div class="reportBox">
-تعداد تراکنش‌ها
-<strong id="reportSales">۰</strong>
-</div>
-
+<div class="reportBox">فروش کل<strong id="reportRevenue">۰ تومان</strong></div>
+<div class="reportBox">هزینه کل<strong id="reportCost">۰ تومان</strong></div>
+<div class="reportBox">سود خالص تقریبی<strong id="reportProfit">۰ تومان</strong></div>
+<div class="reportBox">تعداد محصولات<strong id="reportProducts">۰</strong></div>
+<div class="reportBox">تعداد مشتریان<strong id="reportCustomers">۰</strong></div>
+<div class="reportBox">تعداد تراکنش‌ها<strong id="reportSales">۰</strong></div>
 </div>
 </div>
 
 </div>
 
 </div>
-
-
-<!-- EDIT MODAL -->
 
 <div class="modal" id="editModal">
-
 <div class="modalBox">
-
 <h2>ویرایش محصول</h2>
 
 <input id="editName" placeholder="نام محصول">
-
 <br><br>
 
 <input id="editPrice" type="number" placeholder="قیمت فروش">
-
 <br><br>
 
 <input id="editCost" type="number" placeholder="هزینه">
-
 <br><br>
 
 <input id="editStock" type="number" placeholder="موجودی">
 
 <div class="modalActions">
-
-<button class="primary" onclick="saveEdit()">
-ذخیره تغییرات
-</button>
-
-<button class="cancel" onclick="closeEdit()">
-انصراف
-</button>
-
+<button class="primary" onclick="saveEdit()">ذخیره تغییرات</button>
+<button class="cancel" onclick="closeEdit()">انصراف</button>
 </div>
 
 </div>
 </div>
-
 
 <script>
 
-/* =========================
+/* ==============================
    SUPABASE
-========================= */
+============================== */
 
-const SUPABASE_URL =
-"https://cnbvyuupdrhxpsqnmwpl.supabase.co";
+const SUPABASE_URL = "https://cnbvyuupdrhxpsqnmwpl.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_cu0NHiwRoFfMfNV3BaVmAg_s7iAOc-k";
+const SUPABASE_KEY = "sb_publishable_cu0NHiwRoFfMfNV3BaVmAg_s7iAOc-k";
 
-const supabaseClient =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
 
-/* =========================
-   STATE
-========================= */
+/* ==============================
+   VARIABLES
+============================== */
 
-let products=[];
-let sales=[];
-let customers=[];
+let products = [];
+let sales = [];
+let customers = [];
+let editingId = null;
 
-let editingId=null;
-let signupMode=false;
+const money = n =>
+    new Intl.NumberFormat("fa-IR").format(n) + " تومان";
 
 
-/* =========================
-   HELPERS
-========================= */
-
-const money=n =>
-new Intl.NumberFormat("fa-IR").format(n || 0)+" تومان";
-
-
-function esc(t){
-return String(t ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-}
-
-
-function showMessage(text,type="error"){
-
-const box=document.getElementById("authMessage");
-
-box.textContent=text;
-box.className="message "+type;
-box.style.display="block";
-
-}
-
-
-/* =========================
-   AUTH UI
-========================= */
-
-function toggleAuth(){
-
-signupMode=!signupMode;
-
-document.getElementById("authMessage").style.display="none";
-
-if(signupMode){
-
-document.getElementById("authTitle").textContent=
-"ثبت‌نام فروشنده";
-
-document.getElementById("authSubtitle").textContent=
-"حساب فروشنده خود را ایجاد کنید.";
-
-document.getElementById("authButton").textContent=
-"ثبت‌نام";
-
-document.getElementById("switchText").textContent=
-"حساب دارید؟";
-
-document.getElementById("switchButton").textContent=
-"ورود";
-
-}else{
-
-document.getElementById("authTitle").textContent=
-"ورود به فروش‌یار";
-
-document.getElementById("authSubtitle").textContent=
-"برای ورود به حساب فروشنده وارد شوید.";
-
-document.getElementById("authButton").textContent=
-"ورود";
-
-document.getElementById("switchText").textContent=
-"حساب ندارید؟";
-
-document.getElementById("switchButton").textContent=
-"ثبت‌نام";
-
-}
-
-}
-
-
-async function handleAuth(){
-
-const email=
-document.getElementById("authEmail").value.trim();
-
-const password=
-document.getElementById("authPassword").value;
-
-if(!email || !password){
-
-showMessage("ایمیل و رمز عبور را وارد کنید.");
-return;
-
-}
-
-if(password.length<6){
-
-showMessage("رمز عبور باید حداقل ۶ کاراکتر باشد.");
-return;
-
-}
-
-const button=document.getElementById("authButton");
-
-button.disabled=true;
-
-try{
-
-if(signupMode){
-
-const {data,error}=
-await supabaseClient.auth.signUp({
-email:email,
-password:password,
-options:{
-emailRedirectTo:
-"https://trfylyrda96-create.github.io/my-first-project/"
-}
-});
-
-if(error) throw error;
-
-if(data.session){
-
-showApp(data.session.user);
-
-}else{
-
-showMessage(
-"ثبت‌نام انجام شد. اگر تأیید ایمیل فعال باشد، ایمیل خود را تأیید کنید.",
-"success"
-);
-
-}
-
-}else{
-
-const {data,error}=
-await supabaseClient.auth.signInWithPassword({
-email:email,
-password:password
-});
-
-if(error) throw error;
-
-showApp(data.session.user);
-
-}
-
-}catch(error){
-
-console.error(error);
-
-showMessage(
-error.message || "خطایی رخ داد."
-);
-
-}finally{
-
-button.disabled=false;
-
-}
-
-}
-
-
-/* =========================
-   AUTH STATE
-========================= */
-
-async function checkAuth(){
-
-const {data}=
-await supabaseClient.auth.getSession();
-
-if(data.session){
-
-showApp(data.session.user);
-
-}else{
-
-showAuth();
-
-}
-
-}
-
-
-supabaseClient.auth.onAuthStateChange(
-(event,session)=>{
-
-if(session){
-
-showApp(session.user);
-
-}else{
-
-showAuth();
-
-}
-
-}
-);
-
-
-function showAuth(){
-
-document.getElementById("authPage")
-.classList.remove("hidden");
-
-document.getElementById("appPage")
-.classList.add("hidden");
-
-}
-
-
-async function showApp(user){
-
-document.getElementById("authPage")
-.classList.add("hidden");
-
-document.getElementById("appPage")
-.classList.remove("hidden");
-
-document.getElementById("userEmail").textContent=
-user.email || "";
-
-await loadAll();
-
-}
-
-
-async function logout(){
-
-await supabaseClient.auth.signOut();
-
-}
-
-
-/* =========================
+/* ==============================
    LOAD DATA
-========================= */
+============================== */
 
-async function loadAll(){
+async function loadData(){
 
-await Promise.all([
-loadProducts(),
-loadCustomers(),
-loadSales()
-]);
+    try{
 
-render();
+        const {data:productsData,error:productsError}
+            = await supabaseClient
+            .from("products")
+            .select("*")
+            .order("created_at",{ascending:false});
+
+        if(productsError) throw productsError;
+
+        products = productsData || [];
+
+
+        const {data:customersData,error:customersError}
+            = await supabaseClient
+            .from("customers")
+            .select("*")
+            .order("created_at",{ascending:false});
+
+        if(customersError) throw customersError;
+
+        customers = customersData || [];
+
+
+        const {data:salesData,error:salesError}
+            = await supabaseClient
+            .from("sales")
+            .select("*")
+            .order("created_at",{ascending:false});
+
+        if(salesError) throw salesError;
+
+        sales = salesData || [];
+
+
+        render();
+
+    }catch(error){
+
+        console.error(error);
+
+        alert("خطا در اتصال به Supabase:\n" + error.message);
+
+    }
 
 }
 
 
-/* =========================
-   PRODUCTS
-========================= */
-
-async function loadProducts(){
-
-const {data,error}=
-await supabaseClient
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
-
-if(error){
-
-console.error(error);
-alert("خطا در دریافت محصولات: "+error.message);
-return;
-
-}
-
-products=data || [];
-
-}
-
+/* ==============================
+   ADD PRODUCT
+============================== */
 
 async function addProduct(){
 
-const name=
-document.getElementById("productName")
-.value.trim();
+    let name =
+        document.getElementById("productName").value.trim();
 
-const price=
-Number(document.getElementById("productPrice").value);
+    let price =
+        Number(document.getElementById("productPrice").value);
 
-const cost=
-Number(document.getElementById("productCost").value);
+    let cost =
+        Number(document.getElementById("productCost").value);
 
-const stock=
-Number(document.getElementById("productStock").value);
+    let stock =
+        Number(document.getElementById("productStock").value);
 
-if(!name || price<=0 || cost<0 || stock<0){
 
-alert("اطلاعات محصول را کامل وارد کنید.");
-return;
+    if(!name || price<=0 || cost<0 || stock<0){
 
-}
+        alert("اطلاعات محصول را کامل وارد کنید.");
 
-const {
-data:{user}
-}=
-await supabaseClient.auth.getUser();
+        return;
+    }
 
-if(!user){
 
-alert("ابتدا وارد حساب شوید.");
-return;
+    const {error} = await supabaseClient
+        .from("products")
+        .insert({
 
-}
+            name:name,
+            price:price,
+            cost:cost,
+            stock:stock
 
-const {error}=
-await supabaseClient
-.from("products")
-.insert({
+        });
 
-name:name,
-price:price,
-cost:cost,
-stock:stock,
-user_id:user.id
 
-});
+    if(error){
 
-if(error){
+        console.error(error);
 
-console.error(error);
-alert("خطا در افزودن محصول: "+error.message);
-return;
+        alert("خطا در افزودن محصول:\n" + error.message);
 
-}
+        return;
+    }
 
-document.getElementById("productName").value="";
-document.getElementById("productPrice").value="";
-document.getElementById("productCost").value="";
-document.getElementById("productStock").value="";
 
-await loadProducts();
-render();
+    document.getElementById("productName").value="";
+    document.getElementById("productPrice").value="";
+    document.getElementById("productCost").value="";
+    document.getElementById("productStock").value="";
 
+
+    await loadData();
+
+    alert("محصول با موفقیت اضافه شد.");
 }
 
 
-async function deleteProduct(id){
-
-if(!confirm("این محصول حذف شود؟")) return;
-
-const {error}=
-await supabaseClient
-.from("products")
-.delete()
-.eq("id",id);
-
-if(error){
-
-alert("خطا در حذف محصول: "+error.message);
-return;
-
-}
-
-await loadProducts();
-render();
-
-}
-
-
-function editProduct(id){
-
-const p=
-products.find(x=>x.id===id);
-
-if(!p) return;
-
-editingId=id;
-
-document.getElementById("editName").value=p.name;
-document.getElementById("editPrice").value=p.price;
-document.getElementById("editCost").value=p.cost;
-document.getElementById("editStock").value=p.stock;
-
-document.getElementById("editModal")
-.style.display="flex";
-
-}
-
-
-async function saveEdit(){
-
-const name=
-document.getElementById("editName").value.trim();
-
-const price=
-Number(document.getElementById("editPrice").value);
-
-const cost=
-Number(document.getElementById("editCost").value);
-
-const stock=
-Number(document.getElementById("editStock").value);
-
-if(!name || price<=0 || cost<0 || stock<0){
-
-alert("اطلاعات را صحیح وارد کنید.");
-return;
-
-}
-
-const {error}=
-await supabaseClient
-.from("products")
-.update({
-name:name,
-price:price,
-cost:cost,
-stock:stock
-})
-.eq("id",editingId);
-
-if(error){
-
-alert("خطا در ویرایش محصول: "+error.message);
-return;
-
-}
-
-closeEdit();
-
-await loadProducts();
-render();
-
-}
-
-
-function closeEdit(){
-
-document.getElementById("editModal")
-.style.display="none";
-
-editingId=null;
-
-}
-
-
-async function changeStock(id,amount){
-
-const p=
-products.find(x=>x.id===id);
-
-if(!p) return;
-
-const newStock=
-Number(p.stock)+amount;
-
-if(newStock<0) return;
-
-const {error}=
-await supabaseClient
-.from("products")
-.update({stock:newStock})
-.eq("id",id);
-
-if(error){
-
-alert("خطا در تغییر موجودی: "+error.message);
-return;
-
-}
-
-await loadProducts();
-render();
-
-}
-
-
-/* =========================
-   CUSTOMERS
-========================= */
-
-async function loadCustomers(){
-
-const {data,error}=
-await supabaseClient
-.from("customers")
-.select("*")
-.order("created_at",{ascending:false});
-
-if(error){
-
-console.error(error);
-alert("خطا در دریافت مشتریان: "+error.message);
-return;
-
-}
-
-customers=data || [];
-
-}
-
+/* ==============================
+   ADD CUSTOMER
+============================== */
 
 async function addCustomer(){
 
-const name=
-document.getElementById("customerName")
-.value.trim();
+    let name =
+        document.getElementById("customerName").value.trim();
 
-const phone=
-document.getElementById("customerPhone")
-.value.trim();
+    let phone =
+        document.getElementById("customerPhone").value.trim();
 
-if(!name){
 
-alert("نام مشتری را وارد کنید.");
-return;
+    if(!name){
 
-}
+        alert("نام مشتری را وارد کنید.");
 
-const {
-data:{user}
-}=
-await supabaseClient.auth.getUser();
+        return;
+    }
 
-if(!user){
 
-alert("ابتدا وارد حساب شوید.");
-return;
+    const {error} = await supabaseClient
+        .from("customers")
+        .insert({
 
-}
+            name:name,
+            phone:phone
 
-const {error}=
-await supabaseClient
-.from("customers")
-.insert({
+        });
 
-name:name,
-phone:phone,
-user_id:user.id
 
-});
+    if(error){
 
-if(error){
+        console.error(error);
 
-alert("خطا در افزودن مشتری: "+error.message);
-return;
+        alert("خطا در افزودن مشتری:\n" + error.message);
 
-}
+        return;
+    }
 
-document.getElementById("customerName").value="";
-document.getElementById("customerPhone").value="";
 
-await loadCustomers();
-render();
+    document.getElementById("customerName").value="";
+    document.getElementById("customerPhone").value="";
 
+
+    await loadData();
+
+    alert("مشتری با موفقیت اضافه شد.");
 }
 
 
-async function deleteCustomer(id){
-
-if(!confirm("این مشتری حذف شود؟")) return;
-
-const {error}=
-await supabaseClient
-.from("customers")
-.delete()
-.eq("id",id);
-
-if(error){
-
-alert("خطا در حذف مشتری: "+error.message);
-return;
-
-}
-
-await loadCustomers();
-render();
-
-}
-
-
-/* =========================
-   SALES
-========================= */
-
-async function loadSales(){
-
-const {data,error}=
-await supabaseClient
-.from("sales")
-.select("*")
-.order("created_at",{ascending:false});
-
-if(error){
-
-console.error(error);
-alert("خطا در دریافت فروش‌ها: "+error.message);
-return;
-
-}
-
-sales=data || [];
-
-}
-
+/* ==============================
+   ADD SALE
+============================== */
 
 async function addSale(){
 
-const productId=
-document.getElementById("saleProduct").value;
+    let productId =
+        document.getElementById("saleProduct").value;
 
-const quantity=
-Number(document.getElementById("saleQuantity").value);
+    let quantity =
+        Number(document.getElementById("saleQuantity").value);
 
-const customerId=
-document.getElementById("saleCustomer").value;
+    let customerId =
+        document.getElementById("saleCustomer").value;
 
-if(!productId){
 
-alert("محصولی انتخاب نشده است.");
-return;
+    let product =
+        products.find(p => p.id === productId);
 
+
+    let customer =
+        customers.find(c => c.id === customerId);
+
+
+    if(!product){
+
+        alert("محصولی انتخاب نشده است.");
+
+        return;
+    }
+
+
+    if(quantity<=0){
+
+        alert("تعداد باید بیشتر از صفر باشد.");
+
+        return;
+    }
+
+
+    if(product.stock < quantity){
+
+        alert("موجودی کافی نیست.");
+
+        return;
+    }
+
+
+    const {error:saleError} =
+        await supabaseClient
+        .from("sales")
+        .insert({
+
+            product_id:product.id,
+
+            customer_id:customer ? customer.id : null,
+
+            product_name:product.name,
+
+            customer_name:
+                customer ? customer.name : "مشتری متفرقه",
+
+            quantity:quantity,
+
+            price:product.price,
+
+            cost:product.cost
+
+        });
+
+
+    if(saleError){
+
+        console.error(saleError);
+
+        alert("خطا در ثبت فروش:\n" + saleError.message);
+
+        return;
+    }
+
+
+    const {error:stockError} =
+        await supabaseClient
+        .from("products")
+        .update({
+
+            stock:product.stock - quantity
+
+        })
+        .eq("id",product.id);
+
+
+    if(stockError){
+
+        console.error(stockError);
+
+        alert("فروش ثبت شد ولی خطا در بروزرسانی موجودی رخ داد.");
+
+        return;
+    }
+
+
+    document.getElementById("saleQuantity").value=1;
+
+
+    await loadData();
+
+    alert("فروش با موفقیت ثبت شد.");
 }
 
-if(quantity<=0){
 
-alert("تعداد باید بیشتر از صفر باشد.");
-return;
+/* ==============================
+   DELETE PRODUCT
+============================== */
 
-}
+async function deleteProduct(id){
 
-const product=
-products.find(p=>p.id===productId);
+    if(!confirm("این محصول حذف شود؟")) return;
 
-if(!product){
 
-alert("محصول پیدا نشد.");
-return;
+    const {error} =
+        await supabaseClient
+        .from("products")
+        .delete()
+        .eq("id",id);
 
-}
 
-if(product.stock<quantity){
+    if(error){
 
-alert("موجودی کافی نیست.");
-return;
+        alert("خطا در حذف محصول:\n" + error.message);
 
-}
+        return;
+    }
 
-const customer=
-customers.find(c=>c.id===customerId);
 
-const {
-data:{user}
-}=
-await supabaseClient.auth.getUser();
-
-if(!user){
-
-alert("ابتدا وارد حساب شوید.");
-return;
-
+    await loadData();
 }
 
 
-/* ثبت فروش */
+/* ==============================
+   EDIT PRODUCT
+============================== */
 
-const {error:saleError}=
-await supabaseClient
-.from("sales")
-.insert({
+function editProduct(id){
 
-product_id:product.id,
-customer_id:customer ? customer.id : null,
-product_name:product.name,
-customer_name:customer ? customer.name : "مشتری متفرقه",
-quantity:quantity,
-price:product.price,
-cost:product.cost,
-user_id:user.id
+    let p =
+        products.find(x => x.id === id);
 
-});
+    if(!p) return;
 
-if(saleError){
 
-console.error(saleError);
-alert("خطا در ثبت فروش: "+saleError.message);
-return;
+    editingId = id;
 
+
+    document.getElementById("editName").value =
+        p.name;
+
+    document.getElementById("editPrice").value =
+        p.price;
+
+    document.getElementById("editCost").value =
+        p.cost;
+
+    document.getElementById("editStock").value =
+        p.stock;
+
+
+    document.getElementById("editModal")
+        .style.display="flex";
 }
 
 
-/* کم کردن موجودی */
+/* ==============================
+   SAVE EDIT
+============================== */
 
-const newStock=
-Number(product.stock)-quantity;
+async function saveEdit(){
 
-const {error:stockError}=
-await supabaseClient
-.from("products")
-.update({stock:newStock})
-.eq("id",product.id);
+    let name =
+        document.getElementById("editName").value.trim();
 
-if(stockError){
+    let price =
+        Number(document.getElementById("editPrice").value);
 
-alert(
-"فروش ثبت شد اما موجودی به‌روزرسانی نشد: "+
-stockError.message
-);
+    let cost =
+        Number(document.getElementById("editCost").value);
 
-}else{
+    let stock =
+        Number(document.getElementById("editStock").value);
 
-alert("فروش با موفقیت ثبت شد.");
 
+    if(!name || price<=0 || cost<0 || stock<0){
+
+        alert("اطلاعات را صحیح وارد کنید.");
+
+        return;
+    }
+
+
+    const {error} =
+        await supabaseClient
+        .from("products")
+        .update({
+
+            name:name,
+            price:price,
+            cost:cost,
+            stock:stock
+
+        })
+        .eq("id",editingId);
+
+
+    if(error){
+
+        alert("خطا در ویرایش:\n" + error.message);
+
+        return;
+    }
+
+
+    closeEdit();
+
+    await loadData();
 }
 
-document.getElementById("saleQuantity").value=1;
 
-await loadProducts();
-await loadSales();
+/* ==============================
+   CLOSE EDIT
+============================== */
 
-render();
+function closeEdit(){
 
+    document.getElementById("editModal")
+        .style.display="none";
 }
 
+
+/* ==============================
+   DELETE SALE
+============================== */
 
 async function deleteSale(id){
 
-if(!confirm("این فروش حذف شود؟")) return;
-
-const sale=
-sales.find(x=>x.id===id);
-
-if(!sale) return;
+    if(!confirm("این فروش حذف شود؟")) return;
 
 
-/* حذف فروش */
+    let s =
+        sales.find(x => x.id === id);
 
-const {error}=
-await supabaseClient
-.from("sales")
-.delete()
-.eq("id",id);
 
-if(error){
+    if(!s) return;
 
-alert("خطا در حذف فروش: "+error.message);
-return;
 
+    const {error:saleError} =
+        await supabaseClient
+        .from("sales")
+        .delete()
+        .eq("id",id);
+
+
+    if(saleError){
+
+        alert("خطا در حذف فروش:\n" + saleError.message);
+
+        return;
+    }
+
+
+    let p =
+        products.find(x => x.id === s.product_id);
+
+
+    if(p){
+
+        await supabaseClient
+        .from("products")
+        .update({
+
+            stock:p.stock + s.quantity
+
+        })
+        .eq("id",p.id);
+
+    }
+
+
+    await loadData();
 }
 
 
-/* برگرداندن موجودی */
+/* ==============================
+   DELETE CUSTOMER
+============================== */
 
-if(sale.product_id){
+async function deleteCustomer(id){
 
-const product=
-products.find(p=>p.id===sale.product_id);
+    if(!confirm("این مشتری حذف شود؟")) return;
 
-if(product){
 
-await supabaseClient
-.from("products")
-.update({
-stock:Number(product.stock)+Number(sale.quantity)
-})
-.eq("id",product.id);
+    const {error} =
+        await supabaseClient
+        .from("customers")
+        .delete()
+        .eq("id",id);
 
+
+    if(error){
+
+        alert("خطا در حذف مشتری:\n" + error.message);
+
+        return;
+    }
+
+
+    await loadData();
 }
 
+
+/* ==============================
+   CHANGE STOCK
+============================== */
+
+async function changeStock(id,amount){
+
+    let p =
+        products.find(x => x.id === id);
+
+    if(!p) return;
+
+
+    let newStock =
+        p.stock + amount;
+
+
+    if(newStock < 0) return;
+
+
+    const {error} =
+        await supabaseClient
+        .from("products")
+        .update({
+
+            stock:newStock
+
+        })
+        .eq("id",id);
+
+
+    if(error){
+
+        alert("خطا در تغییر موجودی:\n" + error.message);
+
+        return;
+    }
+
+
+    await loadData();
 }
 
-await loadProducts();
-await loadSales();
 
-render();
-
-}
-
-
-/* =========================
-   RENDER
-========================= */
+/* ==============================
+   RENDER PRODUCTS
+============================== */
 
 function renderProducts(){
 
-const box=
-document.getElementById("productsTable");
+    let box =
+        document.getElementById("productsTable");
 
-const q=
-(document.getElementById("productSearch")
-?.value || "")
-.trim()
-.toLowerCase();
 
-const list=
-products.filter(p=>
-String(p.name)
-.toLowerCase()
-.includes(q)
-);
+    let q =
+        (document.getElementById("productSearch")?.value || "")
+        .trim()
+        .toLowerCase();
 
-if(!list.length){
 
-box.innerHTML=
-'<div class="empty">محصولی پیدا نشد.</div>';
+    let list =
+        products.filter(p =>
+            p.name.toLowerCase().includes(q)
+        );
 
-return;
 
-}
+    if(!list.length){
 
-box.innerHTML=`
+        box.innerHTML =
+            '<div class="empty">محصولی پیدا نشد.</div>';
+
+        return;
+    }
+
+
+    box.innerHTML = `
 
 <table>
 
@@ -1222,7 +783,7 @@ box.innerHTML=`
 <th>عملیات</th>
 </tr>
 
-${list.map(p=>`
+${list.map(p => `
 
 <tr>
 
@@ -1236,26 +797,22 @@ ${list.map(p=>`
 
 <div class="actions">
 
-<button
-class="small plus"
+<button class="small plus"
 onclick="changeStock('${p.id}',1)">
 +1
 </button>
 
-<button
-class="small plus"
+<button class="small plus"
 onclick="changeStock('${p.id}',-1)">
 -1
 </button>
 
-<button
-class="small edit"
+<button class="small edit"
 onclick="editProduct('${p.id}')">
 ویرایش
 </button>
 
-<button
-class="small delete"
+<button class="small delete"
 onclick="deleteProduct('${p.id}')">
 حذف
 </button>
@@ -1269,26 +826,32 @@ onclick="deleteProduct('${p.id}')">
 `).join("")}
 
 </table>
+
 `;
 
 }
 
 
+/* ==============================
+   RENDER SALES
+============================== */
+
 function renderSales(){
 
-const box=
-document.getElementById("salesTable");
+    let box =
+        document.getElementById("salesTable");
 
-if(!sales.length){
 
-box.innerHTML=
-'<div class="empty">هنوز فروشی ثبت نشده است.</div>';
+    if(!sales.length){
 
-return;
+        box.innerHTML =
+            '<div class="empty">هنوز فروشی ثبت نشده است.</div>';
 
-}
+        return;
+    }
 
-box.innerHTML=`
+
+    box.innerHTML = `
 
 <table>
 
@@ -1301,7 +864,7 @@ box.innerHTML=`
 <th></th>
 </tr>
 
-${sales.map(s=>`
+${sales.map(s => `
 
 <tr>
 
@@ -1309,14 +872,14 @@ ${sales.map(s=>`
 
 <td>${s.quantity}</td>
 
-<td>${money(Number(s.price)*Number(s.quantity))}</td>
+<td>${money(s.price * s.quantity)}</td>
 
 <td>${esc(s.customer_name || "مشتری متفرقه")}</td>
 
 <td>
 ${s.created_at
-?new Date(s.created_at).toLocaleDateString("fa-IR")
-:"-"}
+? new Date(s.created_at).toLocaleDateString("fa-IR")
+: "-"}
 </td>
 
 <td>
@@ -1334,26 +897,32 @@ onclick="deleteSale('${s.id}')">
 `).join("")}
 
 </table>
+
 `;
 
 }
 
 
+/* ==============================
+   RENDER CUSTOMERS
+============================== */
+
 function renderCustomers(){
 
-const box=
-document.getElementById("customersTable");
+    let box =
+        document.getElementById("customersTable");
 
-if(!customers.length){
 
-box.innerHTML=
-'<div class="empty">هنوز مشتری ثبت نشده است.</div>';
+    if(!customers.length){
 
-return;
+        box.innerHTML =
+            '<div class="empty">هنوز مشتری ثبت نشده است.</div>';
 
-}
+        return;
+    }
 
-box.innerHTML=`
+
+    box.innerHTML = `
 
 <table>
 
@@ -1363,7 +932,7 @@ box.innerHTML=`
 <th>عملیات</th>
 </tr>
 
-${customers.map(c=>`
+${customers.map(c => `
 
 <tr>
 
@@ -1386,19 +955,26 @@ onclick="deleteCustomer('${c.id}')">
 `).join("")}
 
 </table>
+
 `;
 
 }
 
 
+/* ==============================
+   SELECTS
+============================== */
+
 function renderSelects(){
 
-const ps=
-document.getElementById("saleProduct");
+    let ps =
+        document.getElementById("saleProduct");
 
-ps.innerHTML=
-'<option value="">انتخاب محصول</option>'+
-products.map(p=>`
+
+    ps.innerHTML =
+        '<option value="">انتخاب محصول</option>' +
+
+        products.map(p => `
 
 <option value="${p.id}">
 ${esc(p.name)} — موجودی ${p.stock}
@@ -1407,12 +983,14 @@ ${esc(p.name)} — موجودی ${p.stock}
 `).join("");
 
 
-const cs=
-document.getElementById("saleCustomer");
+    let cs =
+        document.getElementById("saleCustomer");
 
-cs.innerHTML=
-'<option value="">مشتری متفرقه</option>'+
-customers.map(c=>`
+
+    cs.innerHTML =
+        '<option value="">مشتری متفرقه</option>' +
+
+        customers.map(c => `
 
 <option value="${c.id}">
 ${esc(c.name)}
@@ -1423,122 +1001,175 @@ ${esc(c.name)}
 }
 
 
+/* ==============================
+   STATS
+============================== */
+
 function renderStats(){
 
-let revenue=0;
-let cost=0;
-
-sales.forEach(s=>{
-
-revenue+=
-Number(s.price || 0)*
-Number(s.quantity || 0);
-
-cost+=
-Number(s.cost || 0)*
-Number(s.quantity || 0);
-
-});
-
-const profit=
-revenue-cost;
-
-document.getElementById("totalRevenue")
-.textContent=money(revenue);
-
-document.getElementById("totalCost")
-.textContent=money(cost);
-
-document.getElementById("totalProfit")
-.textContent=money(profit);
-
-document.getElementById("saleCount")
-.textContent=
-new Intl.NumberFormat("fa-IR")
-.format(sales.length);
+    let revenue=0;
+    let cost=0;
 
 
-document.getElementById("reportRevenue")
-.textContent=money(revenue);
+    sales.forEach(s => {
 
-document.getElementById("reportCost")
-.textContent=money(cost);
+        revenue +=
+            Number(s.price) * Number(s.quantity);
 
-document.getElementById("reportProfit")
-.textContent=money(profit);
+        cost +=
+            Number(s.cost) * Number(s.quantity);
 
-document.getElementById("reportProducts")
-.textContent=
-new Intl.NumberFormat("fa-IR")
-.format(products.length);
+    });
 
-document.getElementById("reportCustomers")
-.textContent=
-new Intl.NumberFormat("fa-IR")
-.format(customers.length);
 
-document.getElementById("reportSales")
-.textContent=
-new Intl.NumberFormat("fa-IR")
-.format(sales.length);
+    let profit =
+        revenue - cost;
+
+
+    document.getElementById("totalRevenue")
+        .textContent=money(revenue);
+
+    document.getElementById("totalCost")
+        .textContent=money(cost);
+
+    document.getElementById("totalProfit")
+        .textContent=money(profit);
+
+    document.getElementById("saleCount")
+        .textContent =
+        new Intl.NumberFormat("fa-IR")
+        .format(sales.length);
+
+
+    document.getElementById("reportRevenue")
+        .textContent=money(revenue);
+
+    document.getElementById("reportCost")
+        .textContent=money(cost);
+
+    document.getElementById("reportProfit")
+        .textContent=money(profit);
+
+    document.getElementById("reportProducts")
+        .textContent =
+        new Intl.NumberFormat("fa-IR")
+        .format(products.length);
+
+    document.getElementById("reportCustomers")
+        .textContent =
+        new Intl.NumberFormat("fa-IR")
+        .format(customers.length);
+
+    document.getElementById("reportSales")
+        .textContent =
+        new Intl.NumberFormat("fa-IR")
+        .format(sales.length);
 
 }
 
+
+/* ==============================
+   RENDER
+============================== */
 
 function render(){
 
-renderProducts();
-renderSales();
-renderCustomers();
-renderSelects();
-renderStats();
+    renderProducts();
+
+    renderSales();
+
+    renderCustomers();
+
+    renderSelects();
+
+    renderStats();
 
 }
 
 
-/* =========================
+/* ==============================
    TABS
-========================= */
+============================== */
 
 function showTab(id,btn){
 
-document
-.querySelectorAll(".tab")
-.forEach(x=>x.classList.add("hidden"));
+    document
+    .querySelectorAll(".tab")
+    .forEach(x =>
+        x.classList.add("hidden")
+    );
 
-document
-.getElementById(id)
-.classList.remove("hidden");
 
-document
-.querySelectorAll(".nav button")
-.forEach(x=>x.classList.remove("active"));
+    document
+    .getElementById(id)
+    .classList.remove("hidden");
 
-btn.classList.add("active");
+
+    document
+    .querySelectorAll(".nav button")
+    .forEach(x =>
+        x.classList.remove("active")
+    );
+
+
+    btn.classList.add("active");
 
 }
 
+
+/* ==============================
+   OPEN SALE
+============================== */
 
 function openSale(){
 
-const buttons=
-document.querySelectorAll(".nav button");
+    document
+    .querySelectorAll(".tab")
+    .forEach(x =>
+        x.classList.add("hidden")
+    );
 
-showTab("sales",buttons[1]);
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+    document
+    .getElementById("sales")
+    .classList.remove("hidden");
+
+
+    document
+    .querySelectorAll(".nav button")
+    [1].classList.add("active");
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
 
-/* =========================
-   START
-========================= */
+/* ==============================
+   ESCAPE HTML
+============================== */
 
-checkAuth();
+function esc(t){
+
+    return String(t ?? "")
+
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==============================
+   START
+============================== */
+
+loadData();
 
 </script>
 
