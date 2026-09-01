@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>فروش‌یار | مدیریت هوشمند فروش</title><style>
+<title>فروش‌یار | مدیریت هوشمند فروش</title>
+
+<style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
 body{background:#f5f7fb;color:#172033;line-height:1.7}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
@@ -51,115 +54,346 @@ th{color:#687386;font-weight:normal}
 .modalBox h2{margin-bottom:15px}
 .modalActions{display:flex;gap:8px;margin-top:15px}
 .cancel{background:#eef0f3;border:0;padding:11px 17px;border-radius:10px;cursor:pointer}
-@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.userEmail{display:none}}
-@media(max-width:600px){
-.container{padding:18px 4%}.stats{grid-template-columns:1fr 1fr}
-.form{grid-template-columns:1fr}.full{grid-column:auto}.report{grid-template-columns:1fr}
-table{font-size:11px}th,td{padding:8px 4px}header{padding:12px 4%}
+
+@media(max-width:800px){
+.stats{grid-template-columns:repeat(2,1fr)}
+.userBox{gap:5px}.userEmail{display:none}
 }
-</style></head><body><div id="authPage">
-<div class="auth"><div class="logo" style="text-align:center;margin-bottom:20px">
+@media(max-width:600px){
+.container{padding:18px 4%}
+.stats{grid-template-columns:1fr 1fr}
+.form{grid-template-columns:1fr}
+.full{grid-column:auto}
+.report{grid-template-columns:1fr}
+table{font-size:11px}
+th,td{padding:8px 4px}
+header{padding:12px 4%}
+header button{padding:9px 11px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<div id="authPage">
+
+<div class="auth">
+
+<div class="logo" style="text-align:center;margin-bottom:20px">
 فروش<span>یار</span>
-</div><div id="authMessage" class="message"></div><div id="loginBox">
+</div>
+
+<div id="authMessage" class="message"></div>
+
+<div id="loginBox">
+
 <h2>ورود فروشنده</h2>
+
 <input id="loginEmail" type="email" placeholder="ایمیل">
 <input id="loginPassword" type="password" placeholder="رمز عبور">
-<button class="primary" onclick="login()">ورود به فروش‌یار</button><div class="authSwitch">
+
+<button class="primary" onclick="login()">ورود به فروش‌یار</button>
+
+<div class="authSwitch">
 حساب ندارید؟
 <button onclick="showSignup()">ثبت‌نام کنید</button>
 </div>
-</div><div id="signupBox" class="hidden">
+
+</div>
+
+<div id="signupBox" class="hidden">
+
 <h2>ثبت‌نام فروشنده</h2>
+
 <input id="signupEmail" type="email" placeholder="ایمیل">
 <input id="signupPassword" type="password" placeholder="رمز عبور">
 <input id="signupPassword2" type="password" placeholder="تکرار رمز عبور">
-<button class="primary" onclick="signup()">ساخت حساب فروشنده</button><div class="authSwitch">
+
+<button class="primary" onclick="signup()">ساخت حساب فروشنده</button>
+
+<div class="authSwitch">
 قبلاً حساب ساخته‌اید؟
 <button onclick="showLogin()">ورود</button>
 </div>
-</div></div>
-</div><div id="appPage" class="hidden"><header>
-<div class="logo">فروش<span>یار</span></div><div class="userBox">
+
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= APP ================= -->
+
+<div id="appPage" class="hidden">
+
+<header>
+
+<div class="logo">فروش<span>یار</span></div>
+
+<div class="userBox">
 <div id="userEmail" class="userEmail"></div>
 <button class="logout" onclick="logout()">خروج</button>
 </div>
-</header><div class="container"><h1>داشبورد فروش</h1>
-<p class="subtitle">مدیریت محصولات، مشتریان، فروش و سود</p><div class="stats">
-<div class="stat"><small>فروش کل</small><strong id="totalRevenue">۰ تومان</strong></div>
-<div class="stat"><small>هزینه کل</small><strong id="totalCost">۰ تومان</strong></div>
-<div class="stat"><small>سود</small><strong id="totalProfit">۰ تومان</strong></div>
-<div class="stat"><small>تعداد فروش</small><strong id="saleCount">۰</strong></div>
-</div><div class="nav">
+
+</header>
+
+<div class="container">
+
+<h1>داشبورد فروش</h1>
+<p class="subtitle">مدیریت محصولات، مشتریان، فروش و سود</p>
+
+<div class="stats">
+
+<div class="stat">
+<small>فروش کل</small>
+<strong id="totalRevenue">۰ تومان</strong>
+</div>
+
+<div class="stat">
+<small>هزینه کل</small>
+<strong id="totalCost">۰ تومان</strong>
+</div>
+
+<div class="stat">
+<small>سود</small>
+<strong id="totalProfit">۰ تومان</strong>
+</div>
+
+<div class="stat">
+<small>تعداد فروش</small>
+<strong id="saleCount">۰</strong>
+</div>
+
+</div>
+
+
+<div class="nav">
+
 <button class="active" onclick="showTab('products',this)">📦 محصولات</button>
 <button onclick="showTab('sales',this)">🛒 فروش‌ها</button>
 <button onclick="showTab('customers',this)">👥 مشتریان</button>
 <button onclick="showTab('reports',this)">📊 گزارش‌ها</button>
-</div><div id="products" class="tab"><div class="section">
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div id="products" class="tab">
+
+<div class="section">
+
 <h2>افزودن محصول</h2>
-<div id="productMessage" class="message"></div><div class="form">
+
+<div id="productMessage" class="message"></div>
+
+<div class="form">
+
 <input id="productName" placeholder="نام محصول">
 <input id="productPrice" type="number" placeholder="قیمت فروش">
 <input id="productCost" type="number" placeholder="هزینه تولید/خرید">
 <input id="productStock" type="number" placeholder="موجودی">
-<button class="primary full" onclick="addProduct()">افزودن محصول</button>
+
+<button class="primary full" onclick="addProduct()">
+افزودن محصول
+</button>
+
 </div>
-</div><div class="section">
+</div>
+
+
+<div class="section">
+
 <h2>فهرست محصولات</h2>
-<input class="search" id="productSearch" placeholder="🔍 جست‌وجوی محصول..." oninput="renderProducts()">
+
+<input
+class="search"
+id="productSearch"
+placeholder="🔍 جست‌وجوی محصول..."
+oninput="renderProducts()"
+>
+
 <div id="productsTable"></div>
-</div></div><div id="sales" class="tab hidden"><div class="section">
-<h2>ثبت فروش</h2>
-<div id="saleMessage" class="message"></div><div class="form">
-<select id="saleProduct"></select>
-<input id="saleQuantity" type="number" min="1" value="1" placeholder="تعداد">
-<select id="saleCustomer"></select>
-<button class="primary full" onclick="addSale()">ثبت فروش</button>
+
 </div>
-</div><div class="section">
+</div>
+
+
+<!-- SALES -->
+
+<div id="sales" class="tab hidden">
+
+<div class="section">
+
+<h2>ثبت فروش</h2>
+
+<div id="saleMessage" class="message"></div>
+
+<div class="form">
+
+<select id="saleProduct"></select>
+
+<input
+id="saleQuantity"
+type="number"
+min="1"
+value="1"
+placeholder="تعداد"
+>
+
+<select id="saleCustomer"></select>
+
+<button class="primary full" onclick="addSale()">
+ثبت فروش
+</button>
+
+</div>
+</div>
+
+
+<div class="section">
+
 <h2>فروش‌های ثبت‌شده</h2>
 <div id="salesTable"></div>
-</div></div><div id="customers" class="tab hidden"><div class="section">
+
+</div>
+</div>
+
+
+<!-- CUSTOMERS -->
+
+<div id="customers" class="tab hidden">
+
+<div class="section">
+
 <h2>افزودن مشتری</h2>
-<div id="customerMessage" class="message"></div><div class="form">
+
+<div id="customerMessage" class="message"></div>
+
+<div class="form">
+
 <input id="customerName" placeholder="نام مشتری">
 <input id="customerPhone" placeholder="شماره تلفن">
-<button class="primary full" onclick="addCustomer()">افزودن مشتری</button>
+
+<button class="primary full" onclick="addCustomer()">
+افزودن مشتری
+</button>
+
 </div>
-</div><div class="section">
+</div>
+
+
+<div class="section">
+
 <h2>فهرست مشتریان</h2>
 <div id="customersTable"></div>
-</div></div><div id="reports" class="tab hidden"><div class="section">
-<h2>📊 گزارش عملکرد</h2><div class="report">
-<div class="reportBox">فروش کل<strong id="reportRevenue">۰ تومان</strong></div>
-<div class="reportBox">هزینه کل<strong id="reportCost">۰ تومان</strong></div>
-<div class="reportBox">سود خالص تقریبی<strong id="reportProfit">۰ تومان</strong></div>
-<div class="reportBox">تعداد محصولات<strong id="reportProducts">۰</strong></div>
-<div class="reportBox">تعداد مشتریان<strong id="reportCustomers">۰</strong></div>
-<div class="reportBox">تعداد تراکنش‌ها<strong id="reportSales">۰</strong></div>
-</div></div>
-</div></div>
-</div><div class="modal" id="editModal">
+
+</div>
+</div>
+
+
+<!-- REPORTS -->
+
+<div id="reports" class="tab hidden">
+
+<div class="section">
+
+<h2>📊 گزارش عملکرد</h2>
+
+<div class="report">
+
+<div class="reportBox">
+فروش کل
+<strong id="reportRevenue">۰ تومان</strong>
+</div>
+
+<div class="reportBox">
+هزینه کل
+<strong id="reportCost">۰ تومان</strong>
+</div>
+
+<div class="reportBox">
+سود خالص تقریبی
+<strong id="reportProfit">۰ تومان</strong>
+</div>
+
+<div class="reportBox">
+تعداد محصولات
+<strong id="reportProducts">۰</strong>
+</div>
+
+<div class="reportBox">
+تعداد مشتریان
+<strong id="reportCustomers">۰</strong>
+</div>
+
+<div class="reportBox">
+تعداد تراکنش‌ها
+<strong id="reportSales">۰</strong>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<!-- EDIT -->
+
+<div class="modal" id="editModal">
+
 <div class="modalBox">
-<h2>ویرایش محصول</h2><input id="editName" placeholder="نام محصول"><br><br>
-<input id="editPrice" type="number" placeholder="قیمت فروش"><br><br>
-<input id="editCost" type="number" placeholder="هزینه"><br><br>
+
+<h2>ویرایش محصول</h2>
+
+<input id="editName" placeholder="نام محصول">
+<br><br>
+
+<input id="editPrice" type="number" placeholder="قیمت فروش">
+<br><br>
+
+<input id="editCost" type="number" placeholder="هزینه">
+<br><br>
+
 <input id="editStock" type="number" placeholder="موجودی">
 
 <div class="modalActions">
-<button class="primary" onclick="saveEdit()">ذخیره تغییرات</button>
-<button class="cancel" onclick="closeEdit()">انصراف</button>
+
+<button class="primary" onclick="saveEdit()">
+ذخیره تغییرات
+</button>
+
+<button class="cancel" onclick="closeEdit()">
+انصراف
+</button>
+
 </div>
 </div>
-</div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+</div>
 
-const SUPABASE_URL="https://cnbvyuupdrhxpsqnmwpl.supabase.co";
 
-const SUPABASE_KEY="sb_publishable_cu0NHiwRoFfMfNV3BaVmAg_s7iAOc-k";
+<!-- SUPABASE -->
 
-const supabaseClient=window.supabase.createClient(
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://cnbvyuupdrhxpsqnmwpl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_cu0NHiwRoFfMfNV3BaVmAg_s7iAOc-k";
+
+const supabaseClient =
+window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
+
 
 let products=[];
 let sales=[];
@@ -167,9 +401,14 @@ let customers=[];
 let editingId=null;
 let currentUser=null;
 
-const money=n=>new Intl.NumberFormat("fa-IR").format(Number(n)||0)+" تومان";
 
-const faNumber=n=>new Intl.NumberFormat("fa-IR").format(Number(n)||0);
+const money=n =>
+new Intl.NumberFormat("fa-IR").format(Number(n)||0)
++" تومان";
+
+const faNumber=n =>
+new Intl.NumberFormat("fa-IR").format(Number(n)||0);
+
 
 function esc(t){
 return String(t??"")
@@ -180,8 +419,11 @@ return String(t??"")
 .replace(/'/g,"&#039;");
 }
 
+
 function message(id,text,error=true){
+
 const box=document.getElementById(id);
+
 if(!box)return;
 
 box.textContent=text;
@@ -189,114 +431,186 @@ box.style.display="block";
 box.style.background=error?"#fee2e2":"#dcfce7";
 box.style.color=error?"#b91c1c":"#166534";
 
-setTimeout(()=>box.style.display="none",5000);
+setTimeout(()=>{
+box.style.display="none";
+},5000);
+
 }
+
+
+/* ================= AUTH ================= */
 
 function showSignup(){
+
 document.getElementById("loginBox").classList.add("hidden");
 document.getElementById("signupBox").classList.remove("hidden");
+
 }
 
+
 function showLogin(){
+
 document.getElementById("signupBox").classList.add("hidden");
 document.getElementById("loginBox").classList.remove("hidden");
+
 }
+
 
 async function signup(){
 
-const email=document.getElementById("signupEmail").value.trim();
-const password=document.getElementById("signupPassword").value;
-const password2=document.getElementById("signupPassword2").value;
+const email=
+document.getElementById("signupEmail").value.trim();
+
+const password=
+document.getElementById("signupPassword").value;
+
+const password2=
+document.getElementById("signupPassword2").value;
 
 if(!email||!password){
-message("authMessage","ایمیل و رمز عبور را وارد کنید.");
+
+message(
+"authMessage",
+"ایمیل و رمز عبور را وارد کنید."
+);
+
 return;
 }
 
 if(password.length<6){
-message("authMessage","رمز عبور باید حداقل ۶ کاراکتر باشد.");
+
+message(
+"authMessage",
+"رمز عبور باید حداقل ۶ کاراکتر باشد."
+);
+
 return;
 }
 
 if(password!==password2){
-message("authMessage","تکرار رمز عبور صحیح نیست.");
+
+message(
+"authMessage",
+"تکرار رمز عبور صحیح نیست."
+);
+
 return;
 }
 
-const {data,error}=await supabaseClient.auth.signUp({
+const {data,error}=
+await supabaseClient.auth.signUp({
 email,
 password
 });
 
 if(error){
+
 message("authMessage",error.message);
 return;
+
 }
 
 if(data.session){
+
 currentUser=data.user;
 await showApp();
+
 }else{
+
 message(
 "authMessage",
-"ثبت‌نام انجام شد. ایمیل خود را تأیید کنید و سپس وارد شوید.",
+"حساب ساخته شد. اگر تأیید ایمیل فعال است، ابتدا ایمیل خود را تأیید کنید.",
 false
 );
+
 showLogin();
+
 }
+
 }
+
 
 async function login(){
 
-const email=document.getElementById("loginEmail").value.trim();
-const password=document.getElementById("loginPassword").value;
+const email=
+document.getElementById("loginEmail").value.trim();
+
+const password=
+document.getElementById("loginPassword").value;
 
 if(!email||!password){
-message("authMessage","ایمیل و رمز عبور را وارد کنید.");
+
+message(
+"authMessage",
+"ایمیل و رمز عبور را وارد کنید."
+);
+
 return;
 }
 
-const {data,error}=await supabaseClient.auth.signInWithPassword({
+const {data,error}=
+await supabaseClient.auth.signInWithPassword({
 email,
 password
 });
 
 if(error){
-message("authMessage",error.message);
+
+message(
+"authMessage",
+error.message
+);
+
 return;
 }
 
 currentUser=data.user;
+
 await showApp();
+
 }
+
 
 async function logout(){
 
 await supabaseClient.auth.signOut();
 
 currentUser=null;
+
 products=[];
 sales=[];
 customers=[];
 
-document.getElementById("appPage").classList.add("hidden");
-document.getElementById("authPage").classList.remove("hidden");
+document.getElementById("appPage")
+.classList.add("hidden");
+
+document.getElementById("authPage")
+.classList.remove("hidden");
 
 showLogin();
+
 }
+
+
+/* ================= APP ================= */
 
 async function showApp(){
 
 if(!currentUser)return;
 
-document.getElementById("authPage").classList.add("hidden");
-document.getElementById("appPage").classList.remove("hidden");
+document.getElementById("authPage")
+.classList.add("hidden");
 
-document.getElementById("userEmail").textContent=
-currentUser.email||"فروشنده";
+document.getElementById("appPage")
+.classList.remove("hidden");
+
+document.getElementById("userEmail")
+.textContent=currentUser.email||"فروشنده";
 
 await loadAll();
+
 }
+
 
 async function loadAll(){
 
@@ -309,43 +623,74 @@ loadSales()
 ]);
 
 render();
+
 }
+
+
+/* ================= PRODUCTS ================= */
 
 async function loadProducts(){
 
-const {data,error}=await supabaseClient
+const {data,error}=
+await supabaseClient
 .from("products")
 .select("*")
 .eq("user_id",currentUser.id)
 .order("created_at",{ascending:false});
 
 if(error){
+
 console.error(error);
-message("productMessage","خطا در دریافت محصولات: "+error.message);
+
+message(
+"productMessage",
+"خطا در دریافت محصولات: "+error.message
+);
+
 return;
 }
 
 products=data||[];
+
 }
+
 
 async function addProduct(){
 
 if(!currentUser){
-message("productMessage","ابتدا وارد حساب خود شوید.");
+
+message(
+"productMessage",
+"ابتدا وارد حساب خود شوید."
+);
+
 return;
 }
 
-const name=document.getElementById("productName").value.trim();
-const price=Number(document.getElementById("productPrice").value);
-const cost=Number(document.getElementById("productCost").value);
-const stock=Number(document.getElementById("productStock").value);
+const name=
+document.getElementById("productName").value.trim();
+
+const price=
+Number(document.getElementById("productPrice").value);
+
+const cost=
+Number(document.getElementById("productCost").value);
+
+const stock=
+Number(document.getElementById("productStock").value);
 
 if(!name||price<=0||cost<0||stock<0){
-message("productMessage","اطلاعات محصول را کامل وارد کنید.");
+
+message(
+"productMessage",
+"اطلاعات محصول را کامل وارد کنید."
+);
+
 return;
 }
 
-const {data,error}=await supabaseClient
+const {error}=
+await supabaseClient
 .from("products")
 .insert({
 user_id:currentUser.id,
@@ -353,51 +698,73 @@ name,
 price,
 cost,
 stock
-})
-.select()
-.single();
+});
 
 if(error){
+
 console.error(error);
-message("productMessage","خطا در افزودن محصول: "+error.message);
+
+message(
+"productMessage",
+"خطا در افزودن محصول: "+error.message
+);
+
 return;
 }
-
-products.unshift(data);
 
 document.getElementById("productName").value="";
 document.getElementById("productPrice").value="";
 document.getElementById("productCost").value="";
 document.getElementById("productStock").value="";
 
+await loadProducts();
+
 render();
 
-message("productMessage","محصول با موفقیت اضافه شد.",false);
+message(
+"productMessage",
+"محصول با موفقیت اضافه شد.",
+false
+);
+
 }
+
 
 async function deleteProduct(id){
 
+if(!currentUser)return;
+
 if(!confirm("این محصول حذف شود؟"))return;
 
-const {error}=await supabaseClient
+const {error}=
+await supabaseClient
 .from("products")
 .delete()
 .eq("id",id)
 .eq("user_id",currentUser.id);
 
 if(error){
-message("productMessage","خطا در حذف محصول: "+error.message);
+
+message(
+"productMessage",
+"خطا در حذف محصول: "+error.message
+);
+
 return;
 }
 
-products=products.filter(p=>String(p.id)!==String(id));
+await loadProducts();
 
 render();
+
 }
+
 
 function editProduct(id){
 
-const p=products.find(x=>String(x.id)===String(id));
+const p=
+products.find(x=>String(x.id)===String(id));
+
 if(!p)return;
 
 editingId=id;
@@ -407,25 +774,36 @@ document.getElementById("editPrice").value=p.price;
 document.getElementById("editCost").value=p.cost;
 document.getElementById("editStock").value=p.stock;
 
-document.getElementById("editModal").style.display="flex";
+document.getElementById("editModal")
+.style.display="flex";
+
 }
+
 
 async function saveEdit(){
 
-const p=products.find(x=>String(x.id)===String(editingId));
-if(!p)return;
+if(!currentUser)return;
 
-const name=document.getElementById("editName").value.trim();
-const price=Number(document.getElementById("editPrice").value);
-const cost=Number(document.getElementById("editCost").value);
-const stock=Number(document.getElementById("editStock").value);
+const name=
+document.getElementById("editName").value.trim();
+
+const price=
+Number(document.getElementById("editPrice").value);
+
+const cost=
+Number(document.getElementById("editCost").value);
+
+const stock=
+Number(document.getElementById("editStock").value);
 
 if(!name||price<=0||cost<0||stock<0){
+
 alert("اطلاعات را صحیح وارد کنید.");
 return;
 }
 
-const {data,error}=await supabaseClient
+const {error}=
+await supabaseClient
 .from("products")
 .update({
 name,
@@ -434,279 +812,453 @@ cost,
 stock
 })
 .eq("id",editingId)
-.eq("user_id",currentUser.id)
-.select()
-.single();
+.eq("user_id",currentUser.id);
 
 if(error){
+
 alert("خطا در ویرایش: "+error.message);
 return;
 }
 
-Object.assign(p,data);
-
 closeEdit();
+
+await loadProducts();
+
 render();
+
 }
+
 
 function closeEdit(){
-document.getElementById("editModal").style.display="none";
+
+document.getElementById("editModal")
+.style.display="none";
+
 editingId=null;
+
 }
+
 
 async function changeStock(id,amount){
 
-const p=products.find(x=>String(x.id)===String(id));
+if(!currentUser)return;
+
+const p=
+products.find(x=>String(x.id)===String(id));
+
 if(!p)return;
 
-const newStock=Number(p.stock)+Number(amount);
+const newStock=
+Number(p.stock)+Number(amount);
 
 if(newStock<0)return;
 
-const {data,error}=await supabaseClient
+const {error}=
+await supabaseClient
 .from("products")
-.update({stock:newStock})
+.update({
+stock:newStock
+})
 .eq("id",id)
-.eq("user_id",currentUser.id)
-.select()
-.single();
+.eq("user_id",currentUser.id);
 
 if(error){
+
 alert("خطا در تغییر موجودی: "+error.message);
 return;
 }
 
-Object.assign(p,data);
+await loadProducts();
+
 render();
+
 }
+
+
+/* ================= CUSTOMERS ================= */
 
 async function loadCustomers(){
 
-const {data,error}=await supabaseClient
+const {data,error}=
+await supabaseClient
 .from("customers")
 .select("*")
 .eq("user_id",currentUser.id)
 .order("created_at",{ascending:false});
 
 if(error){
+
 console.error(error);
-message("customerMessage","خطا در دریافت مشتریان: "+error.message);
+
+message(
+"customerMessage",
+"خطا در دریافت مشتریان: "+error.message
+);
+
 return;
 }
 
 customers=data||[];
+
 }
+
 
 async function addCustomer(){
 
-const name=document.getElementById("customerName").value.trim();
-const phone=document.getElementById("customerPhone").value.trim();
+if(!currentUser)return;
+
+const name=
+document.getElementById("customerName").value.trim();
+
+const phone=
+document.getElementById("customerPhone").value.trim();
 
 if(!name){
-message("customerMessage","نام مشتری را وارد کنید.");
+
+message(
+"customerMessage",
+"نام مشتری را وارد کنید."
+);
+
 return;
 }
 
-const {data,error}=await supabaseClient
+const {error}=
+await supabaseClient
 .from("customers")
 .insert({
 user_id:currentUser.id,
 name,
 phone
-})
-.select()
-.single();
+});
 
 if(error){
-message("customerMessage","خطا در افزودن مشتری: "+error.message);
+
+message(
+"customerMessage",
+"خطا در افزودن مشتری: "+error.message
+);
+
 return;
 }
-
-customers.unshift(data);
 
 document.getElementById("customerName").value="";
 document.getElementById("customerPhone").value="";
 
+await loadCustomers();
+
 render();
 
-message("customerMessage","مشتری با موفقیت اضافه شد.",false);
+message(
+"customerMessage",
+"مشتری با موفقیت اضافه شد.",
+false
+);
+
 }
+
 
 async function deleteCustomer(id){
 
+if(!currentUser)return;
+
 if(!confirm("این مشتری حذف شود؟"))return;
 
-const {error}=await supabaseClient
+const {error}=
+await supabaseClient
 .from("customers")
 .delete()
 .eq("id",id)
 .eq("user_id",currentUser.id);
 
 if(error){
-message("customerMessage","خطا در حذف مشتری: "+error.message);
+
+message(
+"customerMessage",
+"خطا در حذف مشتری: "+error.message
+);
+
 return;
 }
 
-customers=customers.filter(x=>String(x.id)!==String(id));
+await loadCustomers();
 
 render();
+
 }
+
+
+/* ================= SALES ================= */
 
 async function loadSales(){
 
-const {data,error}=await supabaseClient
+const {data,error}=
+await supabaseClient
 .from("sales")
 .select("*")
 .eq("user_id",currentUser.id)
 .order("created_at",{ascending:false});
 
 if(error){
+
 console.error(error);
-message("saleMessage","خطا در دریافت فروش‌ها: "+error.message);
+
+message(
+"saleMessage",
+"خطا در دریافت فروش‌ها: "+error.message
+);
+
 return;
 }
 
 sales=data||[];
+
 }
+
 
 async function addSale(){
 
-const productId=document.getElementById("saleProduct").value;
-const quantity=Number(document.getElementById("saleQuantity").value);
-const customerId=document.getElementById("saleCustomer").value;
+if(!currentUser){
 
-const product=products.find(x=>String(x.id)===String(productId));
-const customer=customers.find(x=>String(x.id)===String(customerId));
+message(
+"saleMessage",
+"ابتدا وارد حساب خود شوید."
+);
+
+return;
+}
+
+const productId=
+document.getElementById("saleProduct").value;
+
+const quantity=
+Number(
+document.getElementById("saleQuantity").value
+);
+
+const customerId=
+document.getElementById("saleCustomer").value;
+
+const product=
+products.find(
+x=>String(x.id)===String(productId)
+);
+
+const customer=
+customers.find(
+x=>String(x.id)===String(customerId)
+);
 
 if(!product){
-message("saleMessage","محصولی انتخاب نشده است.");
+
+message(
+"saleMessage",
+"محصولی انتخاب نشده است."
+);
+
 return;
 }
 
 if(quantity<=0){
-message("saleMessage","تعداد باید بیشتر از صفر باشد.");
+
+message(
+"saleMessage",
+"تعداد باید بیشتر از صفر باشد."
+);
+
 return;
 }
 
 if(Number(product.stock)<quantity){
-message("saleMessage","موجودی کافی نیست.");
+
+message(
+"saleMessage",
+"موجودی کافی نیست."
+);
+
 return;
 }
 
-const newStock=Number(product.stock)-quantity;
 
-const {error:stockError}=await supabaseClient
+/* ثبت فروش */
+
+const saleData={
+
+user_id:currentUser.id,
+
+product_id:product.id,
+
+customer_id:
+customer?customer.id:null,
+
+product_name:product.name,
+
+customer_name:
+customer?customer.name:"مشتری متفرقه",
+
+quantity,
+
+price:Number(product.price),
+
+cost:Number(product.cost)
+
+};
+
+const {error:saleError}=
+await supabaseClient
+.from("sales")
+.insert(saleData);
+
+if(saleError){
+
+message(
+"saleMessage",
+"خطا در ثبت فروش: "+saleError.message
+);
+
+return;
+}
+
+
+/* کم کردن موجودی */
+
+const newStock=
+Number(product.stock)-quantity;
+
+const {error:stockError}=
+await supabaseClient
 .from("products")
-.update({stock:newStock})
+.update({
+stock:newStock
+})
 .eq("id",product.id)
 .eq("user_id",currentUser.id);
 
 if(stockError){
-message("saleMessage","خطا در کاهش موجودی: "+stockError.message);
-return;
+
+message(
+"saleMessage",
+"فروش ثبت شد ولی موجودی تغییر نکرد: "
++stockError.message
+);
+
+}else{
+
+message(
+"saleMessage",
+"فروش با موفقیت ثبت شد.",
+false
+);
+
 }
-
-const saleData={
-user_id:currentUser.id,
-product_id:product.id,
-product_name:product.name,
-quantity,
-price:Number(product.price),
-cost:Number(product.cost),
-customer_id:customer?customer.id:null,
-customer_name:customer?customer.name:"مشتری متفرقه"
-};
-
-const {data,error}=await supabaseClient
-.from("sales")
-.insert(saleData)
-.select()
-.single();
-
-if(error){
-
-await supabaseClient
-.from("products")
-.update({stock:Number(product.stock)})
-.eq("id",product.id)
-.eq("user_id",currentUser.id);
-
-message("saleMessage","خطا در ثبت فروش: "+error.message);
-return;
-}
-
-product.stock=newStock;
-sales.unshift(data);
 
 document.getElementById("saleQuantity").value=1;
 
-render();
+await loadAll();
 
-message("saleMessage","فروش با موفقیت ثبت شد.",false);
 }
+
 
 async function deleteSale(id){
 
-if(!confirm("این فروش حذف شود و موجودی برگردد؟"))return;
+if(!currentUser)return;
 
-const sale=sales.find(x=>String(x.id)===String(id));
+if(!confirm(
+"این فروش حذف شود و موجودی برگردد؟"
+))return;
+
+const sale=
+sales.find(
+x=>String(x.id)===String(id)
+);
+
 if(!sale)return;
 
-const {error}=await supabaseClient
+
+/* حذف فروش */
+
+const {error}=
+await supabaseClient
 .from("sales")
 .delete()
 .eq("id",id)
 .eq("user_id",currentUser.id);
 
 if(error){
-message("saleMessage","خطا در حذف فروش: "+error.message);
+
+message(
+"saleMessage",
+"خطا در حذف فروش: "+error.message
+);
+
 return;
 }
 
+
+/* برگرداندن موجودی */
+
 if(sale.product_id){
 
-const product=products.find(
-x=>String(x.id)===String(sale.product_id)
-);
+const {data:product}=
+await supabaseClient
+.from("products")
+.select("*")
+.eq("id",sale.product_id)
+.eq("user_id",currentUser.id)
+.maybeSingle();
 
 if(product){
 
-const newStock=
-Number(product.stock)+Number(sale.quantity);
-
 await supabaseClient
 .from("products")
-.update({stock:newStock})
+.update({
+stock:Number(product.stock)+Number(sale.quantity)
+})
 .eq("id",product.id)
 .eq("user_id",currentUser.id);
 
-product.stock=newStock;
-}
 }
 
-sales=sales.filter(x=>String(x.id)!==String(id));
-
-render();
 }
+
+await loadAll();
+
+}
+
+
+/* ================= RENDER PRODUCTS ================= */
 
 function renderProducts(){
 
-const box=document.getElementById("productsTable");
+const box=
+document.getElementById("productsTable");
 
-const q=(document.getElementById("productSearch")?.value||"")
-.trim().toLowerCase();
+const q=
+(
+document.getElementById("productSearch")?.value||""
+)
+.trim()
+.toLowerCase();
 
-const list=products.filter(p=>
-String(p.name||"").toLowerCase().includes(q)
+const list=
+products.filter(p=>
+String(p.name||"")
+.toLowerCase()
+.includes(q)
 );
 
 if(!list.length){
-box.innerHTML='<div class="empty">محصولی پیدا نشد.</div>';
+
+box.innerHTML=
+'<div class="empty">محصولی پیدا نشد.</div>';
+
 return;
 }
 
 box.innerHTML=`
+
 <table>
+
 <tr>
 <th>محصول</th>
 <th>قیمت</th>
@@ -715,44 +1267,76 @@ box.innerHTML=`
 </tr>
 
 ${list.map(p=>`
+
 <tr>
+
 <td>${esc(p.name)}</td>
+
 <td>${money(p.price)}</td>
+
 <td>${faNumber(p.stock)}</td>
+
 <td>
+
 <div class="actions">
 
-<button class="small plus"
-onclick="changeStock('${p.id}',1)">+1</button>
+<button
+class="small plus"
+onclick="changeStock('${p.id}',1)">
++1
+</button>
 
-<button class="small plus"
-onclick="changeStock('${p.id}',-1)">-1</button>
+<button
+class="small plus"
+onclick="changeStock('${p.id}',-1)">
+-1
+</button>
 
-<button class="small edit"
-onclick="editProduct('${p.id}')">ویرایش</button>
+<button
+class="small edit"
+onclick="editProduct('${p.id}')">
+ویرایش
+</button>
 
-<button class="small delete"
-onclick="deleteProduct('${p.id}')">حذف</button>
+<button
+class="small delete"
+onclick="deleteProduct('${p.id}')">
+حذف
+</button>
 
 </div>
+
 </td>
+
 </tr>
+
 `).join("")}
 
-</table>`;
+</table>
+`;
+
 }
+
+
+/* ================= RENDER SALES ================= */
 
 function renderSales(){
 
-const box=document.getElementById("salesTable");
+const box=
+document.getElementById("salesTable");
 
 if(!sales.length){
-box.innerHTML='<div class="empty">هنوز فروشی ثبت نشده است.</div>';
+
+box.innerHTML=
+'<div class="empty">هنوز فروشی ثبت نشده است.</div>';
+
 return;
 }
 
 box.innerHTML=`
+
 <table>
+
 <tr>
 <th>محصول</th>
 <th>تعداد</th>
@@ -763,37 +1347,75 @@ box.innerHTML=`
 </tr>
 
 ${sales.map(s=>`
+
 <tr>
+
 <td>${esc(s.product_name)}</td>
+
 <td>${faNumber(s.quantity)}</td>
-<td>${money(Number(s.price)*Number(s.quantity))}</td>
-<td>${esc(s.customer_name||"مشتری متفرقه")}</td>
+
 <td>
-${s.created_at
-?new Date(s.created_at).toLocaleDateString("fa-IR")
-:"-"}
+${money(
+Number(s.price)*Number(s.quantity)
+)}
 </td>
+
 <td>
-<button class="small delete"
-onclick="deleteSale('${s.id}')">حذف</button>
+${esc(
+s.customer_name||"مشتری متفرقه"
+)}
 </td>
+
+<td>
+${
+s.created_at
+?
+new Date(
+s.created_at
+).toLocaleDateString("fa-IR")
+:"-"
+}
+</td>
+
+<td>
+
+<button
+class="small delete"
+onclick="deleteSale('${s.id}')">
+حذف
+</button>
+
+</td>
+
 </tr>
+
 `).join("")}
 
-</table>`;
+</table>
+`;
+
 }
+
+
+/* ================= CUSTOMERS ================= */
 
 function renderCustomers(){
 
-const box=document.getElementById("customersTable");
+const box=
+document.getElementById("customersTable");
 
 if(!customers.length){
-box.innerHTML='<div class="empty">هنوز مشتری ثبت نشده است.</div>';
+
+box.innerHTML=
+'<div class="empty">هنوز مشتری ثبت نشده است.</div>';
+
 return;
 }
 
 box.innerHTML=`
+
 <table>
+
 <tr>
 <th>نام</th>
 <th>تلفن</th>
@@ -801,41 +1423,69 @@ box.innerHTML=`
 </tr>
 
 ${customers.map(c=>`
+
 <tr>
+
 <td>${esc(c.name)}</td>
+
 <td>${esc(c.phone||"-")}</td>
+
 <td>
-<button class="small delete"
-onclick="deleteCustomer('${c.id}')">حذف</button>
+
+<button
+class="small delete"
+onclick="deleteCustomer('${c.id}')">
+حذف
+</button>
+
 </td>
+
 </tr>
+
 `).join("")}
 
-</table>`;
+</table>
+`;
+
 }
+
+
+/* ================= SELECTS ================= */
 
 function renderSelects(){
 
-const ps=document.getElementById("saleProduct");
+const ps=
+document.getElementById("saleProduct");
 
 ps.innerHTML=
 '<option value="">انتخاب محصول</option>'+
 products.map(p=>`
+
 <option value="${p.id}">
-${esc(p.name)} — موجودی ${faNumber(p.stock)}
+${esc(p.name)}
+ — موجودی ${faNumber(p.stock)}
 </option>
+
 `).join("");
 
-const cs=document.getElementById("saleCustomer");
+
+const cs=
+document.getElementById("saleCustomer");
 
 cs.innerHTML=
 '<option value="">مشتری متفرقه</option>'+
 customers.map(c=>`
+
 <option value="${c.id}">
 ${esc(c.name)}
 </option>
+
 `).join("");
+
 }
+
+
+/* ================= STATS ================= */
 
 function renderStats(){
 
@@ -843,81 +1493,140 @@ let revenue=0;
 let cost=0;
 
 sales.forEach(s=>{
-revenue+=Number(s.price||0)*Number(s.quantity||0);
-cost+=Number(s.cost||0)*Number(s.quantity||0);
+
+revenue+=
+Number(s.price||0)*
+Number(s.quantity||0);
+
+cost+=
+Number(s.cost||0)*
+Number(s.quantity||0);
+
 });
 
-const profit=revenue-cost;
+const profit=
+revenue-cost;
 
-document.getElementById("totalRevenue").textContent=money(revenue);
-document.getElementById("totalCost").textContent=money(cost);
-document.getElementById("totalProfit").textContent=money(profit);
-document.getElementById("saleCount").textContent=faNumber(sales.length);
+document.getElementById("totalRevenue")
+.textContent=money(revenue);
 
-document.getElementById("reportRevenue").textContent=money(revenue);
-document.getElementById("reportCost").textContent=money(cost);
-document.getElementById("reportProfit").textContent=money(profit);
-document.getElementById("reportProducts").textContent=faNumber(products.length);
-document.getElementById("reportCustomers").textContent=faNumber(customers.length);
-document.getElementById("reportSales").textContent=faNumber(sales.length);
+document.getElementById("totalCost")
+.textContent=money(cost);
+
+document.getElementById("totalProfit")
+.textContent=money(profit);
+
+document.getElementById("saleCount")
+.textContent=faNumber(sales.length);
+
+document.getElementById("reportRevenue")
+.textContent=money(revenue);
+
+document.getElementById("reportCost")
+.textContent=money(cost);
+
+document.getElementById("reportProfit")
+.textContent=money(profit);
+
+document.getElementById("reportProducts")
+.textContent=faNumber(products.length);
+
+document.getElementById("reportCustomers")
+.textContent=faNumber(customers.length);
+
+document.getElementById("reportSales")
+.textContent=faNumber(sales.length);
+
 }
 
+
+/* ================= RENDER ================= */
+
 function render(){
+
 renderProducts();
 renderSales();
 renderCustomers();
 renderSelects();
 renderStats();
+
 }
+
+
+/* ================= TABS ================= */
 
 function showTab(id,btn){
 
 document.querySelectorAll(".tab")
 .forEach(x=>x.classList.add("hidden"));
 
-document.getElementById(id).classList.remove("hidden");
+document.getElementById(id)
+.classList.remove("hidden");
 
 document.querySelectorAll(".nav button")
 .forEach(x=>x.classList.remove("active"));
 
 btn.classList.add("active");
+
 }
+
 
 function openSale(){
 
 document.querySelectorAll(".tab")
 .forEach(x=>x.classList.add("hidden"));
 
-document.getElementById("sales").classList.remove("hidden");
+document.getElementById("sales")
+.classList.remove("hidden");
 
 document.querySelectorAll(".nav button")
 .forEach(x=>x.classList.remove("active"));
 
-document.querySelectorAll(".nav button")[1].classList.add("active");
+document.querySelectorAll(".nav button")[1]
+.classList.add("active");
 
-window.scrollTo({top:0,behavior:"smooth"});
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
+
+
+/* ================= SESSION ================= */
 
 async function checkSession(){
 
-const {data,error}=await supabaseClient.auth.getSession();
+const {data,error}=
+await supabaseClient.auth.getSession();
 
 if(error){
+
 console.error(error);
+
 return;
 }
 
 if(data.session){
 
 currentUser=data.session.user;
+
 await showApp();
 
 }else{
 
-document.getElementById("authPage").classList.remove("hidden");
-document.getElementById("appPage").classList.add("hidden");
+document.getElementById("authPage")
+.classList.remove("hidden");
+
+document.getElementById("appPage")
+.classList.add("hidden");
+
 }
+
 }
+
+
+/* ================= AUTH STATE ================= */
 
 supabaseClient.auth.onAuthStateChange(
 (event,session)=>{
@@ -934,12 +1643,22 @@ showApp();
 
 currentUser=null;
 
-document.getElementById("appPage").classList.add("hidden");
-document.getElementById("authPage").classList.remove("hidden");
+document.getElementById("appPage")
+.classList.add("hidden");
+
+document.getElementById("authPage")
+.classList.remove("hidden");
+
 }
+
 });
+
+
+/* ================= START ================= */
 
 checkSession();
 
-</script></body>
+</script>
+
+</body>
 </html>
